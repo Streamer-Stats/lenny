@@ -7,4 +7,4 @@ Idea Conception & Engineers -> Github Profile:
   * @marcusdaniel001
   * @chalkan33
 
-![Screenshot](https://cdnb.artstation.com/p/assets/images/images/006/377/573/large/ivan-garcia-lennykey-30.jpg?1498130138)
+<img src="https://cdnb.artstation.com/p/assets/images/images/006/377/573/large/ivan-garcia-lennykey-30.jpg?1498130138" height="200" width="300">
