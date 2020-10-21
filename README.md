@@ -2,7 +2,7 @@
 This microservice handle events of anothers api to push formated informations to league-api socket server, 
 About an idea to create interactive graphics for twitch.
 
-Idea Conception & Engineers -> Github Profile:
+Idea Conception & Engineers:
   * @frakneable
   * @marcusdaniel001
   * @chalkan33
