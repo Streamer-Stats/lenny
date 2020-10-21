@@ -3,6 +3,7 @@ package server
 import (
 	"flag"
 	"log"
+	"net/http"
 	"net/url"
 
 	"leagueapi.com.br/brain/src/infrastructure/syncronize"
@@ -12,14 +13,16 @@ import (
 
 // Server brains server
 type Server struct {
-	Addr *string
-	URL  *url.URL
-	Conn *websocket.Conn
-	Sync *syncronize.Syncronize
+	Addr   *string
+	URL    *url.URL
+	Conn   *websocket.Conn
+	Sync   *syncronize.Syncronize
+	Header http.Header
 }
 
 func (s *Server) dial() {
-	c, _, err := websocket.DefaultDialer.Dial(s.URL.String(), nil)
+
+	c, _, err := websocket.DefaultDialer.Dial(s.URL.String(), s.Header)
 	if err != nil {
 		log.Fatal("dial:", err)
 	}
@@ -68,6 +71,12 @@ func (s *Server) Reciver() {
 	}
 }
 
+// BindHeader bind header
+func (s *Server) BindHeader() *Server {
+	s.Header["Ws-Client-Name"] = []string{"brain"}
+	return s
+}
+
 // BindURL create url to connect
 func (s *Server) BindURL() *Server {
 	s.URL = &url.URL{Scheme: "ws", Host: *s.Addr, Path: "/live"}
@@ -83,7 +92,8 @@ func (s *Server) Connect() *Server {
 // NewServer server constructor
 func NewServer() *Server {
 	return &Server{
-		Addr: flag.String("addr", "localhost:9000", "http service address"),
-		Sync: syncronize.NewSyncronize(),
+		Addr:   flag.String("addr", "localhost:9000", "http service address"),
+		Sync:   syncronize.NewSyncronize(),
+		Header: http.Header{},
 	}
 }

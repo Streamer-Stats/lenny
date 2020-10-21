@@ -10,7 +10,7 @@ import (
 func main() {
 	flag.Parse()
 	log.SetFlags(0)
-	server := server.NewServer().BindURL().Connect()
+	server := server.NewServer().BindURL().BindHeader().Connect()
 	go server.Reciver()
 	server.Handler()
 }
