@@ -27,6 +27,11 @@ func (e *CreatePlayerEvent) NotifyAll() {
 	}
 }
 
+// ReturnID return eventID
+func (e *CreatePlayerEvent) ReturnID() enum.EventsEnum {
+	return e.ID
+}
+
 // NewCreatePlayerEvent constructor
 func NewCreatePlayerEvent() *CreatePlayerEvent {
 	return &CreatePlayerEvent{
