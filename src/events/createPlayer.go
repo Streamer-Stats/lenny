@@ -23,7 +23,7 @@ func (e *CreatePlayerEvent) Deregister(observer IWatcher.IObserverEvents) {}
 // NotifyAll notify all watcher
 func (e *CreatePlayerEvent) NotifyAll() {
 	for _, observers := range e.ObserverList {
-		observers.Update("just for test")
+		observers.Update()
 	}
 }
 

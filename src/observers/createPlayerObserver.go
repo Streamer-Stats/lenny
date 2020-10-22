@@ -11,8 +11,8 @@ type CreatePlayerObserver struct {
 	EventKey enum.EventsEnum
 }
 
-func (c *CreatePlayerObserver) Update(itemName string) {
-	fmt.Printf("Sending email to customer %s for item %s\n", c.ID, itemName)
+func (c *CreatePlayerObserver) Update() {
+	fmt.Printf("PLAYER %s FOI NOTIFICADO DO CADASTRO\n", c.ID)
 }
 
 func (c *CreatePlayerObserver) GetID() string {
