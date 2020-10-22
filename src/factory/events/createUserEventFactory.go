@@ -9,8 +9,8 @@ import (
 type CreateUserEventFactory struct{}
 
 // CreateEvent implement of interface. abstract factory
-func (c *CreateUserEventFactory) CreateEvent() interfaces.IEvents {
-	return events.NewCreatePlayerEvent()
+func (c *CreateUserEventFactory) CreateEvent(id string) interfaces.IEvents {
+	return events.NewCreatePlayerEvent(id)
 }
 
 // NewCreateUserEventFactory constructor

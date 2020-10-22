@@ -7,18 +7,18 @@ import (
 
 // Events is a watcher
 type Events struct {
-	events         []string
-	eventsRegister []interfaces.IEvents
+	Events         []string
+	EventsRegister []interfaces.IEvents
 }
 
 // RegisterEvents register new events
 func (b *Events) RegisterEvents() *Events {
 	var factory interfacefactory.IEventsFactory
 	var err error
-	for _, event := range b.events {
+	for _, event := range b.Events {
 		factory, err = interfacefactory.GetEventsFactory(event)
 		if err == nil {
-			b.eventsRegister = append(b.eventsRegister, factory.CreateEvent())
+			b.EventsRegister = append(b.EventsRegister, factory.CreateEvent(event))
 		}
 	}
 
@@ -28,6 +28,6 @@ func (b *Events) RegisterEvents() *Events {
 // NewEvents constructor
 func NewEvents() *Events {
 	return &Events{
-		events: []string{"registerUser"},
+		Events: []string{"registerUser"},
 	}
 }

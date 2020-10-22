@@ -8,7 +8,7 @@ import (
 )
 
 type IEventsFactory interface {
-	CreateEvent() interfaces.IEvents
+	CreateEvent(id string) interfaces.IEvents
 }
 
 func GetEventsFactory(event string) (IEventsFactory, error) {

@@ -7,6 +7,7 @@ import (
 
 // CreatePlayerEvent event of player criation
 type CreatePlayerEvent struct {
+	ID           string
 	ObserverList []*observers.CreatePlayerObserver
 }
 
@@ -26,6 +27,8 @@ func (e *CreatePlayerEvent) NotifyAll() {
 }
 
 // NewCreatePlayerEvent constructor
-func NewCreatePlayerEvent() *CreatePlayerEvent {
-	return &CreatePlayerEvent{}
+func NewCreatePlayerEvent(id string) *CreatePlayerEvent {
+	return &CreatePlayerEvent{
+		ID: id,
+	}
 }
