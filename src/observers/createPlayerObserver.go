@@ -1,15 +1,27 @@
 package observers
 
-import "fmt"
+import (
+	"fmt"
+
+	"leagueapi.com.br/brain/src/enum"
+)
 
 type CreatePlayerObserver struct {
-	username string
+	ID       string
+	EventKey enum.EventsEnum
 }
 
 func (c *CreatePlayerObserver) Update(itemName string) {
-	fmt.Printf("Sending email to customer %s for item %s\n", c.username, itemName)
+	fmt.Printf("Sending email to customer %s for item %s\n", c.ID, itemName)
 }
 
 func (c *CreatePlayerObserver) GetID() string {
-	return c.username
+	return c.ID
+}
+
+func NewCreatePlayerObserver(id string) *CreatePlayerObserver {
+	return &CreatePlayerObserver{
+		ID:       id,
+		EventKey: enum.CreateNewPlayer,
+	}
 }
