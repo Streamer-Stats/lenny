@@ -1,8 +1,6 @@
 package observers
 
 import (
-	"fmt"
-
 	"leagueapi.com.br/brain/src/enum"
 )
 
@@ -11,8 +9,8 @@ type CreatePlayerObserver struct {
 	EventKey enum.EventsEnum
 }
 
-func (c *CreatePlayerObserver) Update() {
-	fmt.Printf("PLAYER %s FOI NOTIFICADO DO CADASTRO\n", c.ID)
+func (c *CreatePlayerObserver) Update(observerUpdate chan string) {
+	observerUpdate <- "PLAYER " + c.ID + "FOI NOTIFICADO DO CADASTRO\n"
 }
 
 func (c *CreatePlayerObserver) GetID() string {

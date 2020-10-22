@@ -9,5 +9,5 @@ type IEvents interface {
 	Register(observer IObserverEvents)
 	Deregister(observer IObserverEvents)
 	ReturnID() enum.EventsEnum
-	NotifyAll()
+	NotifyAll(observerUpdate chan string)
 }

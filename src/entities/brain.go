@@ -1,7 +1,9 @@
 package entities
 
 import (
-	"time"
+	"strings"
+
+	"leagueapi.com.br/brain/src/infrastructure/syncronize"
 
 	"leagueapi.com.br/brain/src/handlers"
 )
@@ -10,6 +12,12 @@ import (
 type Brain struct {
 	events  *Events
 	handler *handlers.Handlers
+	sync    *syncronize.Syncronize
+}
+
+func (brain *Brain) AddSyncronize(syncronize *syncronize.Syncronize) *Brain {
+	brain.sync = syncronize
+	return brain
 }
 
 // StartHandlers initiate all handlers
@@ -19,12 +27,15 @@ func (brain *Brain) StartHandlers() *Brain {
 }
 
 // Handle handle the decisions
-func (brain *Brain) Handle() {
-	brain.handler.NewPlayerHandler.CreateNewPlayer("BANOFFE")
-	brain.handler.NewPlayerHandler.CreateNewPlayer("Frango SafaJhin")
-	brain.handler.NewPlayerHandler.CreateNewPlayer("Zoiao")
-	time.Sleep(5 * time.Second)
-	brain.handler.NewPlayerHandler.NotifyAll()
+func (brain *Brain) Handle(command string) {
+	switch strings.TrimSpace(command) {
+	case "NEWUSERNAME":
+		go brain.handler.NewPlayerHandler.CreateNewPlayer("BANOFFE")
+	case "CREATEUSER":
+		go brain.handler.NewPlayerHandler.NotifyAll(brain.sync.ObserverUpdate)
+
+	}
+
 }
 
 // NewBrain constructor

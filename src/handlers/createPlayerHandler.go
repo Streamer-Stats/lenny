@@ -16,8 +16,8 @@ func (handler *CreatePlayerHandler) CreateNewPlayer(username string) {
 }
 
 // NotifyAll notify all watchers
-func (handler *CreatePlayerHandler) NotifyAll() {
-	handler.event.NotifyAll()
+func (handler *CreatePlayerHandler) NotifyAll(observerUpdate chan string) {
+	handler.event.NotifyAll(observerUpdate)
 }
 
 // NewCreatePlayerHandler constructor

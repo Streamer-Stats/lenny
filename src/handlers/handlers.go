@@ -1,6 +1,8 @@
 package handlers
 
-import "leagueapi.com.br/brain/src/events"
+import (
+	"leagueapi.com.br/brain/src/events"
+)
 
 type Handlers struct {
 	watcher          *Watcher
