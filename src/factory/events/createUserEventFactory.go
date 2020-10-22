@@ -8,8 +8,8 @@ import (
 // CreateUserEventFactory factory to create my event of create user
 type CreateUserEventFactory struct{}
 
-// CreateEvent implement of interface. abstract factory
-func (c *CreateUserEventFactory) CreateEvent(id string) interfaces.IEvents {
+// CreateObserver implement of interface. abstract factory
+func (c *CreateUserEventFactory) CreateObserver(id string) interfaces.IEvents {
 	return events.NewCreatePlayerEvent(id)
 }
 

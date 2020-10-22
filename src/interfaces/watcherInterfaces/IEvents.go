@@ -1,4 +1,4 @@
-package interfaces
+package watcherinterfaces
 
 // IEvents events objs
 type IEvents interface {

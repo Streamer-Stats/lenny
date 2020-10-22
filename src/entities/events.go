@@ -12,17 +12,17 @@ type Events struct {
 }
 
 // RegisterEvents register new events
-func (b *Events) RegisterEvents() *Events {
+func (e *Events) RegisterEvents() *Events {
 	var factory interfacefactory.IEventsFactory
 	var err error
-	for _, event := range b.Events {
+	for _, event := range e.Events {
 		factory, err = interfacefactory.GetEventsFactory(event)
 		if err == nil {
-			b.EventsRegister = append(b.EventsRegister, factory.CreateEvent(event))
+			e.EventsRegister = append(e.EventsRegister, factory.CreateEvent(event))
 		}
 	}
 
-	return b
+	return e
 }
 
 // NewEvents constructor

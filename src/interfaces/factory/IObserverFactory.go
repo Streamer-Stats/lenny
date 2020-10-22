@@ -4,24 +4,21 @@ import (
 	"fmt"
 
 	"leagueapi.com.br/brain/src/enum"
-
 	factoryevents "leagueapi.com.br/brain/src/factory/events"
 	"leagueapi.com.br/brain/src/interfaces"
 )
 
-// IEventsFactory interface of abstract factory: events
-type IEventsFactory interface {
-	CreateEvent(id string) interfaces.IEvents
+// IObserverFactory interface of factory
+type IObserverFactory interface {
+	CreateObserver(id string) interfaces.IObserverEvents
 }
 
-// GetEventsFactory static method to get new factory
-func GetEventsFactory(event enum.EventsEnum) (IEventsFactory, error) {
-
+// GetObserverFactory static function to construct the IObserverFactory
+func GetObserverFactory(event enum.EventsEnum) IObserverFactory {
 	switch event {
 	case enum.CreateNewPlayer:
 		return factoryevents.NewCreateUserEventFactory(), nil
 	default:
 		return nil, fmt.Errorf("Wrong event type passed")
 	}
-
 }
