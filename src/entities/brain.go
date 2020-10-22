@@ -2,8 +2,6 @@ package entities
 
 import (
 	"fmt"
-
-	"leagueapi.com.br/brain/src/enum"
 )
 
 // Brain is a watcher
@@ -13,8 +11,8 @@ type Brain struct {
 
 // Handle handle the decisions
 func (brain *Brain) Handle() {
-	newPlayerEvent, _ := brain.events.Get(enum.CreateNewPlayer)
-	fmt.Println(newPlayerEvent)
+	newPlayerEvent := brain.events.GetCreatePlayerEvent()
+	fmt.Println(newPlayerEvent.ID)
 }
 
 // NewBrain constructor

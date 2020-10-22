@@ -1,10 +1,8 @@
 package entities
 
 import (
-	"fmt"
-
 	"leagueapi.com.br/brain/src/enum"
-	"leagueapi.com.br/brain/src/events"
+	event "leagueapi.com.br/brain/src/events"
 	abstractfactory "leagueapi.com.br/brain/src/interfaces/factory"
 	IWatcher "leagueapi.com.br/brain/src/interfaces/watcherInterfaces"
 )
@@ -12,49 +10,43 @@ import (
 // Events is a watcher
 type Events struct {
 	Events         []enum.EventsEnum
-	EventsRegister []IWatcher.IEvents
+	eventsRegister map[enum.EventsEnum]IWatcher.IEvents
 }
 
 // RegisterEvents register new events
-func (e *Events) RegisterEvents() *Events {
+func (events *Events) RegisterEvents() *Events {
 	var factory abstractfactory.IEventsFactory
 	var err error
-	for _, event := range e.Events {
+	for _, event := range events.Events {
 		factory, err = abstractfactory.GetEventsFactory(event)
 		if err == nil {
-			e.EventsRegister = append(e.EventsRegister, factory.CreateEvent())
+			events.eventsRegister[event] = factory.CreateEvent()
 		}
 	}
 
-	return e
+	return events
 }
 
-// Get get specific event
-func (e *Events) Get(event enum.EventsEnum) (interface{}, error) {
-	var eventType interface{}
-	var err error
+func (events *Events) get(event enum.EventsEnum) IWatcher.IEvents {
 
-	for _, register := range e.EventsRegister {
-		if event == register.ReturnID() {
-			switch event {
-			case enum.CreateNewPlayer:
-				eventType = register.(*events.CreatePlayerEvent)
-				err = nil
-				break
-			default:
-				eventType = nil
-				err = fmt.Errorf("Have not register this event")
-			}
-		}
+	switch event {
+	case enum.CreateNewPlayer:
+		return events.eventsRegister[event]
+	default:
+		return nil
 	}
 
-	return eventType, err
+}
 
+// GetCreatePlayerEvent get create player event
+func (events *Events) GetCreatePlayerEvent() *event.CreatePlayerEvent {
+	return events.get(enum.CreateNewPlayer).(*event.CreatePlayerEvent)
 }
 
 // NewEvents constructor
 func NewEvents() *Events {
 	return &Events{
-		Events: []enum.EventsEnum{enum.CreateNewPlayer},
+		Events:         []enum.EventsEnum{enum.CreateNewPlayer},
+		eventsRegister: make(map[enum.EventsEnum]IWatcher.IEvents),
 	}
 }
