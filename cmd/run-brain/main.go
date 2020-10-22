@@ -13,7 +13,7 @@ func main() {
 	flag.Parse()
 	log.SetFlags(0)
 	server := server.NewServer().BindURL().BindHeader().Connect()
-	entities.NewBrain().Handle()
+	entities.NewBrain().StartHandlers().Handle()
 	go server.Reciver()
 	server.Handler()
 }

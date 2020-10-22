@@ -1,38 +1,36 @@
 package entities
 
 import (
-	"fmt"
 	"time"
 
-	"leagueapi.com.br/brain/src/events"
+	"leagueapi.com.br/brain/src/handlers"
 )
 
 // Brain is a watcher
 type Brain struct {
 	events  *Events
-	watcher *Watcher
+	handler *handlers.Handlers
 }
 
-func (brain *Brain) createNewPlayer(username string, event *events.CreatePlayerEvent) {
-	player := brain.watcher.CreateNewPlayerWatcher(username, event.ID)
-	event.Register(player)
-	fmt.Println(username, " IS NOW WATCHING CREATE NEW PLAYER EVENT")
+// StartHandlers initiate all handlers
+func (brain *Brain) StartHandlers() *Brain {
+	brain.handler.RegisterCreatePlayerHandler(brain.events.GetCreatePlayerEvent())
+	return brain
 }
 
 // Handle handle the decisions
 func (brain *Brain) Handle() {
-	newPlayerEvent := brain.events.GetCreatePlayerEvent()
-	brain.createNewPlayer("BANOFFE", newPlayerEvent)
-	brain.createNewPlayer("Frango SafaJhin", newPlayerEvent)
-	brain.createNewPlayer("Zoiao", newPlayerEvent)
+	brain.handler.NewPlayerHandler.CreateNewPlayer("BANOFFE")
+	brain.handler.NewPlayerHandler.CreateNewPlayer("Frango SafaJhin")
+	brain.handler.NewPlayerHandler.CreateNewPlayer("Zoiao")
 	time.Sleep(5 * time.Second)
-	newPlayerEvent.NotifyAll()
+	brain.handler.NewPlayerHandler.NotifyAll()
 }
 
 // NewBrain constructor
 func NewBrain() *Brain {
 	return &Brain{
 		events:  NewEvents().RegisterEvents(),
-		watcher: NewWatcher(),
+		handler: handlers.NewHandler(),
 	}
 }
