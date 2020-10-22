@@ -4,14 +4,14 @@ import (
 	"fmt"
 
 	"leagueapi.com.br/brain/src/enum"
+	IWatcher "leagueapi.com.br/brain/src/interfaces/watcherInterfaces"
 
 	factoryevents "leagueapi.com.br/brain/src/factory/events"
-	"leagueapi.com.br/brain/src/interfaces"
 )
 
 // IEventsFactory interface of abstract factory: events
 type IEventsFactory interface {
-	CreateEvent(id string) interfaces.IEvents
+	CreateEvent() IWatcher.IEvents
 }
 
 // GetEventsFactory static method to get new factory

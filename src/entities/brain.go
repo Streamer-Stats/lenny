@@ -5,6 +5,11 @@ type Brain struct {
 	events *Events
 }
 
+// Handle handle the decisions
+func (b *Brain) Handle() {
+
+}
+
 // NewBrain constructor
 func NewBrain() *Brain {
 	return &Brain{

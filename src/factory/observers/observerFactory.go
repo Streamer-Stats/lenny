@@ -1,7 +1,7 @@
 package observersfactory
 
 import (
-	"leagueapi.com.br/brain/src/interfaces"
+	IWatcher "leagueapi.com.br/brain/src/interfaces/watcherInterfaces"
 	"leagueapi.com.br/brain/src/observers"
 )
 
@@ -9,7 +9,7 @@ import (
 type ObserverFactory struct{}
 
 // CreateObserver create a observer
-func (o *ObserverFactory) CreateObserver(id string) interfaces.IObserverEvents {
+func (o *ObserverFactory) CreateObserver(id string) IWatcher.IObserverEvents {
 	return observers.NewCreatePlayerObserver(id)
 }
 
