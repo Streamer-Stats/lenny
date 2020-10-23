@@ -6,9 +6,10 @@ import (
 )
 
 type Syncronize struct {
-	Interrupt  chan os.Signal
-	Done       chan struct{}
-	NewMessage chan string
+	Interrupt      chan os.Signal
+	Done           chan struct{}
+	NewMessage     chan string
+	ObserverUpdate chan string
 }
 
 func (s *Syncronize) InterruptNotify() {
@@ -16,8 +17,9 @@ func (s *Syncronize) InterruptNotify() {
 }
 func NewSyncronize() *Syncronize {
 	return &Syncronize{
-		Interrupt:  make(chan os.Signal, 1),
-		Done:       make(chan struct{}),
-		NewMessage: make(chan string),
+		Interrupt:      make(chan os.Signal, 1),
+		Done:           make(chan struct{}),
+		NewMessage:     make(chan string),
+		ObserverUpdate: make(chan string),
 	}
 }

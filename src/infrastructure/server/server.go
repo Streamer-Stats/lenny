@@ -5,6 +5,9 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
+
+	"leagueapi.com.br/brain/src/entities"
 
 	"leagueapi.com.br/brain/src/infrastructure/syncronize"
 
@@ -18,6 +21,7 @@ type Server struct {
 	Conn   *websocket.Conn
 	Sync   *syncronize.Syncronize
 	Header http.Header
+	Brain  *entities.Brain
 }
 
 func (s *Server) dial() {
@@ -32,12 +36,15 @@ func (s *Server) dial() {
 
 // Handler handle all socket talk
 func (s *Server) Handler() {
+	s.Brain.AddSyncronize(s.Sync)
 	for {
 		select {
 		case <-s.Sync.Done:
 			return
-		case t := <-s.Sync.NewMessage:
-			err := s.Conn.WriteMessage(websocket.TextMessage, []byte(t))
+		case commmand := <-s.Sync.NewMessage:
+			s.Brain.Handle(commmand)
+		case observerUpdate := <-s.Sync.ObserverUpdate:
+			err := s.Conn.WriteMessage(websocket.TextMessage, []byte(observerUpdate))
 			if err != nil {
 				log.Println("write:", err)
 				return
@@ -55,6 +62,7 @@ func (s *Server) Handler() {
 			return
 		}
 	}
+
 }
 
 // Reciver is a reciver new msg
@@ -67,7 +75,7 @@ func (s *Server) Reciver() {
 			return
 		}
 		log.Printf("recv: %s", message)
-		s.Sync.NewMessage <- string(message) + " | " + " resend"
+		s.Sync.NewMessage <- string(message)
 	}
 }
 
@@ -91,9 +99,15 @@ func (s *Server) Connect() *Server {
 
 // NewServer server constructor
 func NewServer() *Server {
+	host := os.Getenv("HOST")
+	if host == "" {
+		host = "localhost:9000"
+	}
+
 	return &Server{
-		Addr:   flag.String("addr", "localhost:9000", "http service address"),
+		Addr:   flag.String("addr", host, "http service address"),
 		Sync:   syncronize.NewSyncronize(),
 		Header: http.Header{},
+		Brain:  entities.NewBrain().StartHandlers(),
 	}
 }

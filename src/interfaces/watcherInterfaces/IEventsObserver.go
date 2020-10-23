@@ -2,6 +2,6 @@ package watcherinterfaces
 
 // IObserverEvents interface to observe events
 type IObserverEvents interface {
-	Update()
+	Update(observerUpdate chan string)
 	GetID() string
 }

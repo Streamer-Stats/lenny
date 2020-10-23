@@ -1,4 +1,4 @@
-package entities
+package handlers
 
 import (
 	"leagueapi.com.br/brain/src/enum"

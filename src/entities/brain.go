@@ -1,38 +1,47 @@
 package entities
 
 import (
-	"fmt"
-	"time"
+	"strings"
 
-	"leagueapi.com.br/brain/src/events"
+	"leagueapi.com.br/brain/src/infrastructure/syncronize"
+
+	"leagueapi.com.br/brain/src/handlers"
 )
 
 // Brain is a watcher
 type Brain struct {
 	events  *Events
-	watcher *Watcher
+	handler *handlers.Handlers
+	sync    *syncronize.Syncronize
 }
 
-func (brain *Brain) createNewPlayer(username string, event *events.CreatePlayerEvent) {
-	player := brain.watcher.CreateNewPlayerWatcher(username, event.ID)
-	event.Register(player)
-	fmt.Println(username, " IS NOW WATCHING CREATE NEW PLAYER EVENT")
+func (brain *Brain) AddSyncronize(syncronize *syncronize.Syncronize) *Brain {
+	brain.sync = syncronize
+	return brain
+}
+
+// StartHandlers initiate all handlers
+func (brain *Brain) StartHandlers() *Brain {
+	brain.handler.RegisterCreatePlayerHandler(brain.events.GetCreatePlayerEvent())
+	return brain
 }
 
 // Handle handle the decisions
-func (brain *Brain) Handle() {
-	newPlayerEvent := brain.events.GetCreatePlayerEvent()
-	brain.createNewPlayer("BANOFFE", newPlayerEvent)
-	brain.createNewPlayer("Frango SafaJhin", newPlayerEvent)
-	brain.createNewPlayer("Zoiao", newPlayerEvent)
-	time.Sleep(5 * time.Second)
-	newPlayerEvent.NotifyAll()
+func (brain *Brain) Handle(command string) {
+	switch strings.TrimSpace(command) {
+	case "NEWUSERNAME":
+		go brain.handler.NewPlayerHandler.CreateNewPlayer("BANOFFE")
+	case "CREATEUSER":
+		go brain.handler.NewPlayerHandler.NotifyAll(brain.sync.ObserverUpdate)
+
+	}
+
 }
 
 // NewBrain constructor
 func NewBrain() *Brain {
 	return &Brain{
 		events:  NewEvents().RegisterEvents(),
-		watcher: NewWatcher(),
+		handler: handlers.NewHandler(),
 	}
 }

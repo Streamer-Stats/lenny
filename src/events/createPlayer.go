@@ -21,9 +21,9 @@ func (e *CreatePlayerEvent) Register(observer IWatcher.IObserverEvents) {
 func (e *CreatePlayerEvent) Deregister(observer IWatcher.IObserverEvents) {}
 
 // NotifyAll notify all watcher
-func (e *CreatePlayerEvent) NotifyAll() {
+func (e *CreatePlayerEvent) NotifyAll(observerUpdate chan string) {
 	for _, observers := range e.ObserverList {
-		observers.Update()
+		observers.Update(observerUpdate)
 	}
 }
 
