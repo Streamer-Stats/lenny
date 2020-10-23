@@ -13,7 +13,7 @@ image:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
+socketHost: leagueapi-leagueapichart.leagueapi.svc.cluster.local
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
