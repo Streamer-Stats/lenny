@@ -1,3 +1,4 @@
+![build-image](https://github.com/Streamer-Stats/lenny/workflows/build-image/badge.svg)
 # Streamer Stats - Lenny MicroService (Watcher)
 This microservice handle events of anothers api to push formated informations to league-api socket server, 
 About an idea to create interactive graphics for twitch.
