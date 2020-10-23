@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"os"
 
 	"leagueapi.com.br/brain/src/entities"
 
@@ -98,8 +99,13 @@ func (s *Server) Connect() *Server {
 
 // NewServer server constructor
 func NewServer() *Server {
+	host := os.Getenv("HOST")
+	if host == "" {
+		host = "localhost:9000"
+	}
+
 	return &Server{
-		Addr:   flag.String("addr", "localhost:9000", "http service address"),
+		Addr:   flag.String("addr", host, "http service address"),
 		Sync:   syncronize.NewSyncronize(),
 		Header: http.Header{},
 		Brain:  entities.NewBrain().StartHandlers(),
