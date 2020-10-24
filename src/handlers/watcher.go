@@ -20,8 +20,8 @@ func (watcher *Watcher) createNewWatcher(event enum.EventsEnum) abstractfactory.
 }
 
 // CreateNewPlayerWatcher create a new player watcher
-func (watcher *Watcher) CreateNewPlayerWatcher(username string, event enum.EventsEnum) *observers.CreatePlayerObserver {
-	return watcher.createNewWatcher(event).CreateObserver(username).(*observers.CreatePlayerObserver)
+func (watcher *Watcher) PlayerWatcher(username string, event enum.EventsEnum) *observers.PlayerObserver {
+	return watcher.createNewWatcher(event).CreateObserver(username).(*observers.PlayerObserver)
 }
 
 // NewWatcher constructor

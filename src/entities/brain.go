@@ -22,18 +22,17 @@ func (brain *Brain) AddSyncronize(syncronize *syncronize.Syncronize) *Brain {
 
 // StartHandlers initiate all handlers
 func (brain *Brain) StartHandlers() *Brain {
-	brain.handler.RegisterCreatePlayerHandler(brain.events.GetCreatePlayerEvent())
+	brain.handler.PlayerHandler(brain.events.GetCreatePlayerEvent())
 	return brain
 }
 
 // Handle handle the decisions
 func (brain *Brain) Handle(command string) {
 	switch strings.TrimSpace(command) {
-	case "NEWUSERNAME":
-		go brain.handler.NewPlayerHandler.CreateNewPlayer("BANOFFE")
 	case "CREATEUSER":
-		go brain.handler.NewPlayerHandler.NotifyAll(brain.sync.ObserverUpdate)
-
+		go brain.handler.NewPlayerHandler.NotifyAll(brain.sync.BroadCast)
+	default:
+		go brain.handler.NewPlayerHandler.CreateNewPlayer(command)
 	}
 
 }

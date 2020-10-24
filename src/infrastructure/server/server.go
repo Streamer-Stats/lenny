@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"flag"
 	"log"
 	"net/http"
@@ -43,8 +44,9 @@ func (s *Server) Handler() {
 			return
 		case commmand := <-s.Sync.NewMessage:
 			s.Brain.Handle(commmand)
-		case observerUpdate := <-s.Sync.ObserverUpdate:
-			err := s.Conn.WriteMessage(websocket.TextMessage, []byte(observerUpdate))
+		case broadcast := <-s.Sync.BroadCast:
+			jsonStringfy, _ := json.Marshal(broadcast)
+			err := s.Conn.WriteMessage(websocket.TextMessage, []byte(jsonStringfy))
 			if err != nil {
 				log.Println("write:", err)
 				return

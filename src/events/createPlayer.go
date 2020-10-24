@@ -1,6 +1,7 @@
 package events
 
 import (
+	"leagueapi.com.br/brain/src/broadcast"
 	"leagueapi.com.br/brain/src/enum"
 	IWatcher "leagueapi.com.br/brain/src/interfaces/watcherInterfaces"
 	"leagueapi.com.br/brain/src/observers"
@@ -9,21 +10,21 @@ import (
 // CreatePlayerEvent event of player criation
 type CreatePlayerEvent struct {
 	ID           enum.EventsEnum
-	ObserverList []*observers.CreatePlayerObserver
+	ObserverList []*observers.PlayerObserver
 }
 
 // Register register a new type event player
 func (e *CreatePlayerEvent) Register(observer IWatcher.IObserverEvents) {
-	e.ObserverList = append(e.ObserverList, observer.(*observers.CreatePlayerObserver))
+	e.ObserverList = append(e.ObserverList, observer.(*observers.PlayerObserver))
 }
 
 // Deregister deregister a new type event player
 func (e *CreatePlayerEvent) Deregister(observer IWatcher.IObserverEvents) {}
 
 // NotifyAll notify all watcher
-func (e *CreatePlayerEvent) NotifyAll(observerUpdate chan string) {
+func (e *CreatePlayerEvent) NotifyAll(observerUpdate chan broadcast.Player) {
 	for _, observers := range e.ObserverList {
-		observers.Update(observerUpdate)
+		observers.Update(observerUpdate, observers.Stats)
 	}
 }
 

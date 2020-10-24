@@ -10,7 +10,7 @@ type ObserverFactory struct{}
 
 // CreateObserver create a observer
 func (o *ObserverFactory) CreateObserver(id string) IWatcher.IObserverEvents {
-	return observers.NewCreatePlayerObserver(id)
+	return observers.NewPlayerObserver(id)
 }
 
 // NewObserverFactory constructor
