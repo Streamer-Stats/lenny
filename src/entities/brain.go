@@ -26,6 +26,12 @@ func (brain *Brain) StartHandlers() *Brain {
 	return brain
 }
 
+// StartEvents initiate all events
+func (brain *Brain) StartEvents() *Brain {
+	go brain.events.GetCreatePlayerEvent().CheckChanges(brain.sync.BroadCast)
+	return brain
+}
+
 // Handle handle the decisions
 func (brain *Brain) Handle(command string) {
 	switch strings.TrimSpace(command) {

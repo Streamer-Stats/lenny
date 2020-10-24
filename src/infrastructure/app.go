@@ -28,7 +28,6 @@ func (a *AppConfig) LoadConfiguration(file string) *AppConfig {
 	var config *AppConfig
 
 	configFile, err := os.Open("appconfig.json")
-
 	defer configFile.Close()
 	if err != nil {
 		fmt.Println(err.Error())

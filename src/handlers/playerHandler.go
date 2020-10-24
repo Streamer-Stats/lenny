@@ -13,7 +13,10 @@ type PlayerHandler struct {
 
 // CreateNewPlayer create a new player watcher
 func (handler *PlayerHandler) CreateNewPlayer(username string) {
-	handler.event.Register(handler.watcher.PlayerWatcher(username, handler.event.ID))
+	playerObserver := handler.watcher.PlayerWatcher(username, handler.event.ID)
+	handler.event.Register(playerObserver)
+	playerObserver.CheckIfPlayerExist()
+
 }
 
 // NotifyAll notify all watchers

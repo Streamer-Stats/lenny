@@ -65,7 +65,7 @@ func (mq *RabbitMQ) formatAmpqURI() string {
 	if mq.Host == "" {
 		mq.Host = os.Getenv("rabbitmq_host")
 	}
-	return "amqp://" + mq.User + mq.Password + "@" + mq.Host
+	return "amqp://" + mq.User + ":" + mq.Password + "@" + mq.Host
 
 }
 

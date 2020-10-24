@@ -37,7 +37,7 @@ func (s *Server) dial() {
 
 // Handler handle all socket talk
 func (s *Server) Handler() {
-	s.Brain.AddSyncronize(s.Sync)
+
 	for {
 		select {
 		case <-s.Sync.Done:
@@ -105,11 +105,11 @@ func NewServer() *Server {
 	if host == "" {
 		host = "localhost:9000"
 	}
-
+	sync := syncronize.NewSyncronize()
 	return &Server{
 		Addr:   flag.String("addr", host, "http service address"),
-		Sync:   syncronize.NewSyncronize(),
+		Sync:   sync,
 		Header: http.Header{},
-		Brain:  entities.NewBrain().StartHandlers(),
+		Brain:  entities.NewBrain().AddSyncronize(sync).StartHandlers().StartEvents(),
 	}
 }
