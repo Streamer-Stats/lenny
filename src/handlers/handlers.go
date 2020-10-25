@@ -6,11 +6,11 @@ import (
 
 type Handlers struct {
 	watcher          *Watcher
-	NewPlayerHandler *CreatePlayerHandler
+	NewPlayerHandler *PlayerHandler
 }
 
-func (handlers *Handlers) RegisterCreatePlayerHandler(event *events.CreatePlayerEvent) {
-	handlers.NewPlayerHandler = NewCreatePlayerHandler(event, handlers.watcher)
+func (handlers *Handlers) PlayerHandler(event *events.CreatePlayerEvent) {
+	handlers.NewPlayerHandler = NewPlayerHandler(event, handlers.watcher)
 }
 
 func NewHandler() *Handlers {

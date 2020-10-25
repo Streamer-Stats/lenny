@@ -1,6 +1,7 @@
 package watcherinterfaces
 
 import (
+	"leagueapi.com.br/brain/src/broadcast"
 	"leagueapi.com.br/brain/src/enum"
 )
 
@@ -9,5 +10,5 @@ type IEvents interface {
 	Register(observer IObserverEvents)
 	Deregister(observer IObserverEvents)
 	ReturnID() enum.EventsEnum
-	NotifyAll(observerUpdate chan string)
+	NotifyAll(observerUpdate chan broadcast.Player)
 }
